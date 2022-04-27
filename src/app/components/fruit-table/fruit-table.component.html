@@ -5,11 +5,31 @@
         <mat-card-header>
           <mat-card-title>Grassland Ventures Fruit Database:</mat-card-title>
         </mat-card-header>
+        <div class="search">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              (keyup)="applyFilter($event.target.value)"
+              placeholder="Filter"
+            />
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelectEvent($event.value)"
+              placeholder="Sort By"
+            >
+              <mat-option *ngFor="let option of options" [value]="option.value">
+                {{ option.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <mat-card-content>
           <table
             class="mat-table"
             mat-table
-            [dataSource]="viewModel.fruitData$"
+            [dataSource]="viewModel.filteredData$"
           >
             <mat-text-column name="name"></mat-text-column>
             <mat-text-column name="id"></mat-text-column>
