@@ -10,3 +10,19 @@
   justify-content: right;
   flex-direction: row;
 }
+
+.row-odd {
+  background-color: #ffffff;
+}
+
+.row-even {
+  background-color: #fafafa;
+}
+
+.lastColumn {
+  text-align: right;
+}
+
+.entire-row {
+  background-color: #31bf5d;
+}
