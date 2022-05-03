@@ -6,6 +6,7 @@ import {
   MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 import { Fruit } from "src/app/models/fruit";
+import { Sort } from "@angular/material/sort";
 
 @Component({
   selector: "app-fruit-table",
@@ -21,13 +22,6 @@ export class FruitTableComponent implements OnInit {
     "calories",
     "carbohydrates",
     "sugar",
-  ];
-
-  options = [
-    { value: "nameAsc", viewValue: "Name Ascending" },
-    { value: "nameDes", viewValue: "Name Descending" },
-    { value: "carbsAsc", viewValue: "Carbohydrates Ascending" },
-    { value: "carbsDes", viewValue: "Carbohydrates Descending" },
   ];
 
   fruit: Fruit;
@@ -51,36 +45,48 @@ export class FruitTableComponent implements OnInit {
       )
     );
   }
-  onSelectEvent(event: string) {
-    if (event === "nameAsc") {
-      this.viewModel.filteredData$.next(
-        this.viewModel.filteredData$.value.sort((a, b) =>
-          a.name.localeCompare(b.name)
-        )
-      );
-    } else if (event === "nameDes") {
-      this.viewModel.filteredData$.next(
-        this.viewModel.filteredData$.value.sort((a, b) =>
-          b.name.localeCompare(a.name)
-        )
-      );
-    } else if (event === "carbsAsc") {
-      this.viewModel.filteredData$.next(
-        this.viewModel.filteredData$.value.sort(
-          (a, b) => a.nutritions.carbohydrates - b.nutritions.carbohydrates
-        )
-      );
-    } else if (event === "carbsDes") {
-      this.viewModel.filteredData$.next(
-        this.viewModel.filteredData$.value.sort(
-          (a, b) => b.nutritions.carbohydrates - a.nutritions.carbohydrates
-        )
-      );
+
+  sortData(sort: Sort) {
+    if (!sort.active || sort.direction === "") {
+      return;
     }
+
+    this.viewModel.filteredData$.next(
+      this.viewModel.filteredData$.value.sort((a, b) => {
+        const isAsc = sort.direction === "asc";
+        switch (sort.active) {
+          case "id":
+            return this.compare(a.id, b.id, isAsc);
+          case "name":
+            return this.compare(a.name, b.name, isAsc);
+          case "genus":
+            return this.compare(a.genus, b.genus, isAsc);
+          case "calories":
+            return this.compare(
+              a.nutritions.calories,
+              b.nutritions.calories,
+              isAsc
+            );
+          case "carbohydrates":
+            return this.compare(
+              a.nutritions.carbohydrates,
+              b.nutritions.carbohydrates,
+              isAsc
+            );
+          case "sugar":
+            return this.compare(a.nutritions.sugar, b.nutritions.sugar, isAsc);
+          default:
+            return 0;
+        }
+      })
+    );
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   openModal(fruit: Fruit) {
-    console.log(fruit);
     const dialogRef = this.dialog.open(DialogData, {
       disableClose: true,
       width: "50%",
