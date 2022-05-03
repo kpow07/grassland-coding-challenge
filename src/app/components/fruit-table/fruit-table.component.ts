@@ -1,5 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit, ViewEncapsulation } from "@angular/core";
 import { FruitTableViewModel } from "./fruit-table-view-model";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
+import { Fruit } from "src/app/models/fruit";
 
 @Component({
   selector: "app-fruit-table",
@@ -24,7 +30,12 @@ export class FruitTableComponent implements OnInit {
     { value: "carbsDes", viewValue: "Carbohydrates Descending" },
   ];
 
-  constructor(public viewModel: FruitTableViewModel) {}
+  fruit: Fruit;
+
+  constructor(
+    public viewModel: FruitTableViewModel,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {}
 
@@ -66,5 +77,33 @@ export class FruitTableComponent implements OnInit {
         )
       );
     }
+  }
+
+  openModal(fruit: Fruit) {
+    console.log(fruit);
+    const dialogRef = this.dialog.open(DialogData, {
+      disableClose: true,
+      width: "50%",
+      data: fruit,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.fruit = fruit;
+    });
+  }
+}
+@Component({
+  selector: "app-modal",
+  styleUrls: ["../modal/modal.component.scss"],
+  templateUrl: "../modal/modal.component.html",
+  encapsulation: ViewEncapsulation.None,
+})
+export class DialogData {
+  constructor(
+    public dialogRef: MatDialogRef<DialogData>,
+    @Inject(MAT_DIALOG_DATA) public data: Fruit
+  ) {}
+
+  closeModal(): void {
+    this.dialogRef.close();
   }
 }

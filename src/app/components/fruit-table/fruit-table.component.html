@@ -63,6 +63,7 @@
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
             <tr
               mat-row
+              (click)="openModal(myRowData)"
               *matRowDef="
                 let myRowData;
                 let fruit;
