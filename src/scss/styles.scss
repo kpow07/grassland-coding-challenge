@@ -1,9 +1,14 @@
-
 // Import styles with default layout.
-@import '~bootstrap/dist/css/bootstrap.css';
+@import "~bootstrap/dist/css/bootstrap.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 table.mat-table {
   display: table;
@@ -14,4 +19,8 @@ thead {
   display: table-header-group;
   vertical-align: middle;
   border-color: inherit;
+}
+
+.text-right .mat-sort-header-container {
+  justify-content: flex-end;
 }
