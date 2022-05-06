@@ -1,27 +1,114 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Grassland Ventures Fruit Database:</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <table class="mat-table" mat-table [dataSource]="viewModel.fruitData$">
-                        <mat-text-column name="name"></mat-text-column>
-                        <mat-text-column name="id"></mat-text-column>
-                        <mat-text-column name="genus"></mat-text-column>
-                        <ng-container matColumnDef="calories">
-                            <th mat-header-cell *matHeaderCellDef> Calories</th>
-                            <td mat-cell *matCellDef="let fruit"> {{fruit.nutritions.calories}} </td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-                    </table>
-                    <div class="loading-spinner-container" *ngIf="!!(viewModel.loadingFruit$|async)">
-                        <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
-                    </div>
-                </mat-card-content>
-            </mat-card>
+  <div class="row">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Grassland Ventures Fruit Database:</mat-card-title>
+        </mat-card-header>
+        <div class="search">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              (keyup)="applyFilter($event.target.value)"
+              placeholder="Filter"
+            />
+          </mat-form-field>
         </div>
+        <mat-card-content>
+          <table
+            class="mat-table"
+            mat-table
+            matSort
+            matSortActive="name"
+            matSortDirection="asc"
+            (matSortChange)="sortData($event)"
+            [dataSource]="viewModel.filteredData$"
+          >
+            <ng-container matColumnDef="name">
+              <th mat-header-cell mat-sort-header="name" *matHeaderCellDef>
+                Name
+              </th>
+              <td mat-cell *matCellDef="let fruit">
+                {{ fruit.name }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="id">
+              <th mat-header-cell mat-sort-header="id" *matHeaderCellDef>Id</th>
+              <td mat-cell *matCellDef="let fruit">
+                {{ fruit.id }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="genus">
+              <th mat-header-cell mat-sort-header="genus" *matHeaderCellDef>
+                Genus
+              </th>
+              <td mat-cell *matCellDef="let fruit">
+                {{ fruit.genus }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="calories">
+              <th mat-header-cell mat-sort-header="calories" *matHeaderCellDef>
+                Calories
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let fruit"
+                [style.fontWeight]="
+                  fruit.nutritions.calories <= 50 ? 'bold' : 'normal'
+                "
+              >
+                {{ fruit.nutritions.calories }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="carbohydrates">
+              <th
+                mat-header-cell
+                mat-sort-header="carbohydrates"
+                *matHeaderCellDef
+              >
+                Carbohydrates
+              </th>
+              <td mat-cell *matCellDef="let fruit">
+                {{ fruit.nutritions.carbohydrates }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="sugar">
+              <th
+                mat-header-cell
+                mat-sort-header="sugar"
+                *matHeaderCellDef
+                class="text-right"
+              >
+                Sugar
+              </th>
+              <td mat-cell *matCellDef="let fruit" class="lastColumn">
+                {{ fruit.nutritions.sugar }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr
+              mat-row
+              (click)="openModal(fruit)"
+              *matRowDef="let fruit; columns: columnsToDisplay; let i = index"
+              class="row-odd"
+              [ngClass]="{
+                'row-even': i % 2,
+                'entire-row':
+                  fruit.nutritions.calories <= 50 && fruit.nutritions.sugar >= 8
+              }"
+            ></tr>
+          </table>
+          <div
+            class="loading-spinner-container"
+            *ngIf="!!(viewModel.loadingFruit$ | async)"
+          >
+            <mat-progress-spinner
+              mode="indeterminate"
+              color="primary"
+            ></mat-progress-spinner>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
+  </div>
 </div>

@@ -1,0 +1,25 @@
+.modal-header {
+  justify-content: center;
+  font-size: x-large;
+  background-color: #3f51b5;
+  color: whitesmoke;
+  padding: 25px;
+}
+
+.modal-container {
+  display: flex;
+}
+
+.modal-column {
+  flex: 33.33%;
+  text-align: center;
+}
+
+.modal-footer {
+  background-color: #3f51b5;
+  color: whitesmoke;
+}
+
+.mat-dialog-container {
+  padding: 0px !important;
+}

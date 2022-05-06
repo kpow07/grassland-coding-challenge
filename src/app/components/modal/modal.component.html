@@ -1,0 +1,28 @@
+<strong mat-dialog-title class="modal-header">{{ data.name }}</strong>
+<div class="modal-body">
+  <h3>Details:</h3>
+  <div class="modal-container">
+    <div class="modal-column">
+      <p><strong>Family:</strong> {{ data.family }}</p>
+    </div>
+    <div class="modal-column">
+      <p><strong>Genus:</strong> {{ data.genus }}</p>
+    </div>
+    <div class="modal-column">
+      <p><strong>Order: </strong>{{ data.order }}</p>
+    </div>
+  </div>
+  <h3>Nutritional Facts:</h3>
+  <div class="modal-column">
+    <p><strong>Calories: </strong>{{ data.nutritions.calories }}kcal</p>
+    <p><strong>Carbohydrates: </strong>{{ data.nutritions.carbohydrates }}g</p>
+    <p><strong>Fat: </strong>{{ data.nutritions.fat }}g</p>
+    <p><strong>Protein: </strong>{{ data.nutritions.protein }}g</p>
+    <p><strong>Sugar: </strong>{{ data.nutritions.sugar }}g</p>
+  </div>
+</div>
+<div mat-dialog-actions class="modal-footer">
+  <button mat-button class="btn btn-danger" (click)="closeModal()">
+    Close
+  </button>
+</div>

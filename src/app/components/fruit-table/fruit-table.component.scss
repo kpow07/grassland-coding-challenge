@@ -1,7 +1,28 @@
-
 .loading-spinner-container {
   padding: 2rem;
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.search {
+  display: flex;
+  justify-content: right;
+  flex-direction: row;
+}
+
+.row-odd {
+  background-color: #ffffff;
+}
+
+.row-even {
+  background-color: #fafafa;
+}
+
+.lastColumn {
+  text-align: right;
+}
+
+.entire-row {
+  background-color: #31bf5d;
 }
